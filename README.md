@@ -1,6 +1,6 @@
 #Twitter Data Parse for Jekyll
 
-A quick and dirty pair of filters for [Jekyll](http://jekyllrb.com/) that parse a Twitter CSV archive and compile a list of tweet counts and basic statistics.
+A quick and dirty pair of filters for [Jekyll](http://jekyllrb.com/) that parse a [Twitter CSV archive](https://support.twitter.com/articles/20170160-downloading-your-twitter-archive) and compile a list of tweet counts and basic statistics.
 
 ##Requirements
 Jekyll >= 2.4.0
@@ -10,7 +10,7 @@ Place twitter_data_parse.rb into the _plugins/ directory of your Jekyll instance
 
 ##Usage
 ###Daily tweet counts
-With [tweets.csv](https://support.twitter.com/articles/20170160-downloading-your-twitter-archive) in the _data/ directory of your Jekyll site installation, place the following code towards the top of your template:
+With tweets.csv in the _data/ directory of your Jekyll site installation, place the following code towards the top of your template:
 
     {% assign tweets = site.data.tweets | twitter_parse %}
     
