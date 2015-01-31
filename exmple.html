@@ -1,0 +1,49 @@
+---
+layout: default
+title: Twitter Count
+---
+
+{% assign tweets = site.data.tweets | twitter_parse %}
+{% assign stats = tweets | twitter_stats %}
+
+<div id="home">
+  <table border="1" cellpadding="6" cellspacing="0">
+  	<tr>
+  		<th>Date</th>
+  		<th>Total</th>
+  		<th>Originals</th>
+  		<th>Replies</th>
+  		<th>Retweets</th>
+  	</tr>
+    {% for tweet in tweets %}
+  	<tr>
+  		<td>{{ tweet.date }}</td>
+  		<td>{{ tweet.tweets }}</td>
+  		<td>{{ tweet.originals }}</td>
+  		<td>{{ tweet.replies }}</td>
+  		<td>{{ tweet.retweets }}</td>
+  	</tr>
+    {% endfor %}
+  </table>
+
+  <p>
+  	Average daily tweets: {{ stats.average_tweets }}<br>
+  	Average daily originals: {{ stats.average_originals }}<br>
+  	Average daily replies: {{ stats.average_replies }}<br>
+  	Average daily retweets: {{ stats.average_retweets }}
+  </p>
+
+  <p>
+  	60-day average daily tweets: {{ stats.sixty_average_tweets }}<br>
+  	60-day average daily originals: {{ stats.sixty_average_originals }}<br>
+  	60-day average daily replies: {{ stats.sixty_average_replies }}<br>
+  	60-day average daily retweets: {{ stats.sixty_average_retweets }}
+  </p>
+
+  <p>
+  	Most tweets ({{ stats.most_tweets_date }}): {{ stats.most_tweets_count }}<br>
+  	Most originals ({{ stats.most_originals_date }}): {{ stats.most_originals_count }}<br>
+  	Most replies ({{ stats.most_replies_date }}): {{ stats.most_replies_count }}<br>
+  	Most retweets ({{ stats.most_retweets_date }}): {{ stats.most_retweets_count }}
+  </p>
+</div>
