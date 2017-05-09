@@ -7,10 +7,21 @@ module TwitterDataParse
 			tweet_hash = Hash.new
 			tweet_array = Array.new
 
+			first_tweet_date = nil
+			last_tweet_date = nil
+
 			# Loop through the tweets
 			for tweet in input
 				tweet_date_obj = DateTime.parse(tweet['timestamp'])
+
 				tweet_date = tweet_date_obj.new_offset(DateTime.now.offset).strftime('%F')
+
+				if(!first_tweet_date || DateTime.parse(tweet_date) < DateTime.parse(first_tweet_date))
+					first_tweet_date = tweet_date
+				end
+				if(!last_tweet_date || DateTime.parse(tweet_date) > DateTime.parse(last_tweet_date))
+					last_tweet_date = tweet_date
+				end
 
 				# Set up hash if this is the first instance of the date
 				if tweet_hash.has_key?(tweet_date) == false
@@ -36,6 +47,28 @@ module TwitterDataParse
 				else
 					tweet_hash[tweet_date]['originals'] += 1
 				end
+			end
+
+			# Add in dates that didn't have tweets
+			first_tweet_date_obj = DateTime.parse(first_tweet_date)
+			last_tweet_date_obj = DateTime.parse(last_tweet_date)
+
+			curr_tweet_date_obj = first_tweet_date_obj
+
+			while curr_tweet_date_obj < last_tweet_date_obj
+				curr_tweet_date = curr_tweet_date_obj.strftime('%F')
+
+				if tweet_hash.has_key?(curr_tweet_date) == false
+					tweet_hash[curr_tweet_date] = {
+						'date' => curr_tweet_date,
+						'tweets' => 0,
+						'originals' => 0,
+						'replies' => 0,
+						'retweets' => 0
+					}
+				end
+
+				curr_tweet_date_obj += 1
 			end
 
 			# Convert to array
